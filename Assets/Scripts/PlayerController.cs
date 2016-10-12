@@ -1,14 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
     public float speed;
+    public Text scoreText;
+    public Text winText;
 
     private Rigidbody rb;
+    private int score;
+    private const int NUM_COLLECTIBLES = 8;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        score = 0;
+        SetScoreText();
+        winText.text = "";
     }
 
     void FixedUpdate()
@@ -28,6 +36,17 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("Pick Up"))
         {
             other.gameObject.SetActive(false);
+            score += 1;
+            SetScoreText();
+        }
+    }
+
+    void SetScoreText()
+    {
+        scoreText.text = "Score: " + score.ToString();
+        if (score >= NUM_COLLECTIBLES)
+        {
+            winText.text = "You Win!";
         }
     }
 }
